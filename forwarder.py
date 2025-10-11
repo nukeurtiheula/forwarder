@@ -115,16 +115,21 @@ async def loop_forward(client):
             print("⚠️ Mencoba lagi dalam 60 detik...")
             await asyncio.sleep(60)
 
+# GANTI SELURUH FUNGSI main() DENGAN INI
+
 async def main():
     """Menjalankan klien Telegram dan menangani koneksi ulang."""
+    session_string = os.getenv("SESSION_STRING") # Mengambil kunci sesi dari environment
+
     while True:
         try:
+            # Menggunakan StringSession, bukan nama file
             async with TelegramClient(StringSession(session_string), api_id, api_hash) as client:
-            print("✅ Berhasil terhubung menggunakan session string.")
-            await loop_forward(client)
-
-if __name__ == '__main__':
-    try:
-        asyncio.run(main())
-    except (KeyboardInterrupt, SystemExit):
-        print("\n🛑 Program dihentikan oleh pengguna.")
+                # ---> LIHAT DI SINI, BARIS INI DAN DI BAWAHNYA MENJOROK KE DALAM
+                print("✅ Berhasil terhubung menggunakan session string.")
+                await loop_forward(client)
+                
+        except Exception as e:
+            print(f"❌ Klien terputus atau gagal terhubung: {e}")
+            print("🔌 Mencoba menghubungkan kembali dalam 20 detik...")
+            await asyncio.sleep(20)
