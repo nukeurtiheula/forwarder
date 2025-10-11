@@ -8,7 +8,7 @@ import os
 load_dotenv()
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
-session_name = "keyword_looper"
+session_string = os.getenv("SESSION_STRING")
 
 # --- Pengaturan (Dapat Disesuaikan) ---
 source_channel = 'kandangpet'
@@ -119,12 +119,9 @@ async def main():
     """Menjalankan klien Telegram dan menangani koneksi ulang."""
     while True:
         try:
-            async with TelegramClient(session_name, api_id, api_hash) as client:
-                await loop_forward(client)
-        except Exception as e:
-            print(f"❌ Klien terputus atau gagal terhubung: {e}")
-            print("🔌 Mencoba menghubungkan kembali dalam 20 detik...")
-            await asyncio.sleep(20)
+            async with TelegramClient(StringSession(session_string), api_id, api_hash) as client:
+            print("✅ Berhasil terhubung menggunakan session string.")
+            await loop_forward(client)
 
 if __name__ == '__main__':
     try:
