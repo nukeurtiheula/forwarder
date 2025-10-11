@@ -24,3 +24,8 @@ with TelegramClient(StringSession(), int(api_id), api_hash) as client:
     print("\nLogin berhasil! Ini adalah session string-mu (RAHASIA!):")
     print(f"\n{session_string}\n")
     print("✅ Simpan string di atas. Kamu akan membutuhkannya di Railway.")
+
+
+
+
+

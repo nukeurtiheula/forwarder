@@ -140,6 +140,7 @@ async def main():
     while True:
         try:
             # Menggunakan StringSession, bukan nama file
+            print("❤️ Mencoba menghubungkan ke Telegram...")
             async with TelegramClient(StringSession(session_string), api_id, api_hash) as client:
                 # ---> LIHAT DI SINI, BARIS INI DAN DI BAWAHNYA MENJOROK KE DALAM
                 print("✅ Berhasil terhubung menggunakan session string.")

@@ -1,2 +1,5 @@
-telethon
-python-dotenv
+# requirements.txt (Versi Stabil)
+python-dotenv==1.0.1
+telethon==1.34.0
+cryptg==0.3.2
+pysqlite3-binary==0.5.2.post2
