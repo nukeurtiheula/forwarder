@@ -1,22 +1,26 @@
+# forwarder.py (VERSI DIAGNOSTIK FINAL)
+
 import asyncio
 import random
-from telethon import TelegramClient, errors
-from dotenv import load_dotenv
 import os
 import sys
+import traceback # <-- IMPORT BARU UNTUK MENCETAK ERROR DETAIL
+from telethon import TelegramClient, errors
+from telethon.sessions import StringSession
+from dotenv import load_dotenv
 
 # --- Memuat Konfigurasi ---
 load_dotenv()
-api_id = int(os.getenv("API_ID"))
+api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
 session_string = os.getenv("SESSION_STRING")
 
-
+# --- KODE PENJAGA ---
 print("🔎 Memeriksa environment variables...")
 if not api_id or not api_hash or not session_string:
     print("❌ FATAL ERROR: Salah satu variabel (API_ID, API_HASH, atau SESSION_STRING) tidak ditemukan.")
     print("   -> Pastikan semua variabel sudah diatur dengan benar di Railway.")
-    sys.exit(1) # Menghentikan script dengan pesan error
+    sys.exit(1)
 
 try:
     api_id = int(api_id)
@@ -33,16 +37,11 @@ target_groups = [
     'Chellyra_Lpm', 'kawasanroblox', 'LPMCHEZYW', 'JBGROWAGARDEN1', 'gagtyah', 'LPM_JB_GAGS', 
     'nikelpm', 'lpm_jualan_all', 'growagardenmalays', 'LpmGrowAGardenss',
 ]
-# Menghapus duplikat grup untuk efisiensi
 target_groups = list(set(target_groups))
-
 keywords = ['FOR SALE', 'FOR OFFER', 'OPEN BID', 'OPEN JASA']
-# Jeda acak antar pengiriman pesan (dalam detik)
 delay_per_send_range = (20, 50)
-# Jumlah pesan yang diambil dari channel sumber per putaran
 jumlah_pesan_diambil = 150
-# Jeda acak antar putaran (dalam detik)
-delay_antar_loop_range = (400, 700) # Sekitar 6.5 sampai 11.5 menit
+delay_antar_loop_range = (400, 700)
 
 # --- Fungsi Utama ---
 
@@ -131,22 +130,32 @@ async def loop_forward(client):
             print("⚠️ Mencoba lagi dalam 60 detik...")
             await asyncio.sleep(60)
 
-# GANTI SELURUH FUNGSI main() DENGAN INI
 
 async def main():
     """Menjalankan klien Telegram dan menangani koneksi ulang."""
-    session_string = os.getenv("SESSION_STRING") # Mengambil kunci sesi dari environment
-
     while True:
         try:
-            # Menggunakan StringSession, bukan nama file
-            print("❤️ Mencoba menghubungkan ke Telegram...")
+            print("❤️ Mencoba menghubungkan ke Telegram...") 
             async with TelegramClient(StringSession(session_string), api_id, api_hash) as client:
-                # ---> LIHAT DI SINI, BARIS INI DAN DI BAWAHNYA MENJOROK KE DALAM
                 print("✅ Berhasil terhubung menggunakan session string.")
                 await loop_forward(client)
-                
         except Exception as e:
             print(f"❌ Klien terputus atau gagal terhubung: {e}")
             print("🔌 Mencoba menghubungkan kembali dalam 20 detik...")
             await asyncio.sleep(20)
+
+# --- BLOK "KOTAK HITAM" BARU ---
+if __name__ == '__main__':
+    print("🏁 Memulai eksekusi program utama...")
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        # Jika ada error APAPUN yang membuat program crash, ini akan menangkapnya
+        print("\n💥 CRITICAL ERROR: Program berhenti secara tak terduga! 💥")
+        print(f"   Penyebab: {type(e).__name__} - {e}")
+        print("\n--- Laporan Autopsi (Traceback) ---")
+        traceback.print_exc() # Mencetak laporan error yang sangat detail
+        print("---------------------------------")
+        # Menjaga container tetap berjalan sebentar agar kita bisa baca log
+        print("Container akan berhenti dalam 60 detik...")
+        asyncio.sleep(60)
