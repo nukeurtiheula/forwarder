@@ -1,2 +1,7 @@
+# nixpacks.toml (dengan versi Python)
+
+[phases.setup]
+nixPkgs = ["python311"] # Memberitahu Railway untuk install Python 3.11
+
 [start]
 cmd = "python forwarder.py"
