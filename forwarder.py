@@ -3,12 +3,28 @@ import random
 from telethon import TelegramClient, errors
 from dotenv import load_dotenv
 import os
+import sys
 
 # --- Memuat Konfigurasi ---
 load_dotenv()
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 session_string = os.getenv("SESSION_STRING")
+
+
+print("🔎 Memeriksa environment variables...")
+if not api_id or not api_hash or not session_string:
+    print("❌ FATAL ERROR: Salah satu variabel (API_ID, API_HASH, atau SESSION_STRING) tidak ditemukan.")
+    print("   -> Pastikan semua variabel sudah diatur dengan benar di Railway.")
+    sys.exit(1) # Menghentikan script dengan pesan error
+
+try:
+    api_id = int(api_id)
+except (ValueError, TypeError):
+    print(f"❌ FATAL ERROR: API_ID harus berupa angka, tapi yang ditemukan adalah: '{api_id}'")
+    sys.exit(1)
+    
+print("✅ Semua environment variables ditemukan dan valid.")
 
 # --- Pengaturan (Dapat Disesuaikan) ---
 source_channel = 'kandangpet'
