@@ -38,7 +38,7 @@ target_groups = [
     'nikelpm', 'lpm_jualan_all', 'growagardenmalays', 'LpmGrowAGardenss',
 ]
 target_groups = list(set(target_groups))
-keywords = ['FOR SALE', 'FOR OFFER', '🔥 LELANG DIMULAI! 🔥', 'OPEN JASA']
+keywords = ['FOR SALE', 'FOR OFFER', '🔥 LELANG BERLANGSUNG! 🔥', 'OPEN JASA']
 delay_per_send_range = (20, 50)
 jumlah_pesan_diambil = 150
 delay_antar_loop_range = (400, 700)
