@@ -40,7 +40,7 @@ target_groups = [
 target_groups = list(set(target_groups))
 keywords = ['FOR SALE', 'FOR OFFER', 'LELANG BERLANGSUNG', 'OPEN JASA']
 delay_per_send_range = (20, 50)
-jumlah_pesan_diambil = 150
+jumlah_pesan_diambil = 250
 delay_antar_loop_range = (400, 700)
 
 # --- Fungsi Utama ---
